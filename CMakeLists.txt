@@ -110,7 +110,7 @@ catkin_package(
 ## Build ##
 ###########
 
-find_library(STRUCTURE_LIB StructureLinux HINTS "lib")
+find_library(STRUCTURE_LIB Structure HINTS "lib")
 
 find_package(Eigen3 QUIET)
 if(NOT EIGEN3_FOUND)

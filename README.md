@@ -1,8 +1,12 @@
 To run and build:
 
-1) From your Structure Core SDK download, copy the include and lib folders from:
+1) From your Structure Core SDK download, copy the .so library from:
 
-StructureSDK-CrossPlatform-0.6.1-2.0/Linux/Libraries/Structure/x86_64
+Libraries/Structure/Linux/x86_64 to lib/libStructure.so
+
+2) Copy the ST folder from
+
+Libaries/Shared/Headers to include/ST
 
 into this repo.
 

@@ -424,9 +424,9 @@ int main(int argc, char **argv) {
     /** @brief The target framerate for the visible camera. If the value is not supported, the default is 30. */
     settings.structureCore.visibleFramerate  = 15.f;
     /** @brief The initial visible exposure to start streaming with (milliseconds, but set in seconds). */
-    settings.structureCore.initialVisibleExposure = 0.033f;
+    //settings.structureCore.initialVisibleExposure = 0.033f;
     /** @brief The initial visible gain to start streaming with. Can be any number between 1 and 8. */
-    settings.structureCore.initialVisibleGain = 4.0f;
+    //settings.structureCore.initialVisibleGain = 4.0f;
     /** @brief The initial infrared exposure to start streaming with. */
     settings.structureCore.initialInfraredExposure = 0.0146f;
     /** @brief The initial infrared gain to start streaming with. Can be 0, 1, 2, or 3. */
