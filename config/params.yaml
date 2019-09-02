@@ -1,0 +1,26 @@
+sensorSettings:
+    frameSyncEnabled: true
+    lowLatencyIMU: true
+    applyExpensiveCorrection: true
+    depthEnabled: true
+    infraredEnabled: false
+    visibleEnabled: true
+    accelerometerEnabled: false
+    gyroscopeEnabled: true
+    depthRangeMode: 0
+    infraredResolution: 0
+    visibleResolution: 0
+    visibleApplyGammaCorrection: true
+    infraredAutoExposureEnabled: true
+    imuUpdateRate: 0
+    sensorSerial: 0
+    sensorInitializationTimeout: 6000
+    infraredFramerate: 15.0
+    depthFramerate: 15.0
+    visibleFramerate: 16.0
+    initialInfraredExposure: 0.0146
+    initialInfraredGain: 3.0
+    disableInfraredIntensityBalance: true
+    latencyReducerEnabled: false
+    initialProjectorPower: 1.0
+

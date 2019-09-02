@@ -8,6 +8,7 @@
 
 #include <ros/ros.h>
 
+//#include <sensor_msgs/IMU.h>
 #include <sensor_msgs/Image.h>
 #include <sensor_msgs/CameraInfo.h>
 #include <sensor_msgs/fill_image.h>
@@ -378,65 +379,100 @@ int main(int argc, char **argv) {
     settings.source = ST::CaptureSessionSourceId::StructureCore;
 
     /** @brief Set to true to enable frame synchronization between visible or color and depth. */
-    settings.frameSyncEnabled = true;
+    pnh.getParam("/sensorSettings/frameSyncEnabled", settings.frameSyncEnabled) ;
+	
     /** @brief Set to true to deliver IMU events on a separate, dedicated background thread. Only supported for Structure Core, currently. */
-    settings.lowLatencyIMU = true;
+    pnh.getParam("/sensorSettings/lowLatencyIMU", settings.lowLatencyIMU);
+
     /** @brief Set to true to apply a correction filter to the depth before streaming. This may effect performance. */
-    settings.applyExpensiveCorrection = true;
+    pnh.getParam("/sensorSettings/applyExpensiveCorrection", settings.applyExpensiveCorrection);
+
     /** @brief Set to true to enable depth streaming. */
-    settings.structureCore.depthEnabled = true;
+    pnh.getParam("/sensorSettings/depthEnabled", settings.structureCore.depthEnabled);
+
     /** @brief Set to true to enable infrared streaming. */
-    settings.structureCore.infraredEnabled = false;
+    pnh.getParam("/sensorSettings/infraredEnabled", settings.structureCore.infraredEnabled);
+
     /** @brief Set to true to enable visible streaming. */
-    settings.structureCore.visibleEnabled = true;
+    pnh.getParam("/sensorSettings/visibleEnabled", settings.structureCore.visibleEnabled);
+
     /** @brief Set to true to enable accelerometer streaming. */
-    settings.structureCore.accelerometerEnabled = false;
+    pnh.getParam("/sensorSettings/accelerometerEnabled", settings.structureCore.accelerometerEnabled);
+
     /** @brief Set to true to enable gyroscope streaming. */
-    settings.structureCore.gyroscopeEnabled = false;
+    pnh.getParam("/sensorSettings/gyroscopeEnabled", settings.structureCore.gyroscopeEnabled);
+
     /** @brief The target resolution for streamed depth frames. @see StructureCoreDepthResolution */
+    //pnh.getParam("/sensorSettings/depthResolution", settings.structureCore.depthResolution); 
     settings.structureCore.depthResolution = ST::StructureCoreDepthResolution::SXGA;
+
+
     /** @brief The preset depth range mode for streamed depth frames. Modifies the min/max range of the depth values. */
+    //pnh.getParam("/sensorSettings/depthRangeMode", settings.structureCore.depthRangeMode); 
     settings.structureCore.depthRangeMode = ST::StructureCoreDepthRangeMode::Default;
+
     /** @brief The target resolution for streamed depth frames. @see StructureCoreInfraredResolution
         Non-default infrared and visible resolutions are currently unavailable.
     */
+    //pnh.getParam("/sensorSettings/infraredResolution", settings.structureCore.infraredResolution); 
     settings.structureCore.infraredResolution = ST::StructureCoreInfraredResolution::Default;
+
     /** @brief The target resolution for streamed visible frames. @see StructureCoreVisibleResolution
         Non-default infrared and visible resolutions are currently unavailable.
     */
-    settings.structureCore.visibleResolution = ST::StructureCoreVisibleResolution::Default;
-    /** @brief Set to true to apply gamma correction to incoming visible frames. */
-    settings.structureCore.visibleApplyGammaCorrection = true;
-    /** @brief Enable auto-exposure for infrared frames. */
-    settings.structureCore.infraredAutoExposureEnabled = true;
+    //pnh.getParam("/sensorSettings/visibleResolution", settings.structureCore.visibleResolution);
+	settings.structureCore.visibleResolution = ST::StructureCoreVisibleResolution::Default;
+
     /** @brief Specifies how to stream the infrared frames. @see StructureCoreInfraredMode */
-    settings.structureCore.infraredMode = ST::StructureCoreInfraredMode::BothCameras;
+    //pnh.getParam("/sensorSettings/infraredMode", settings.structureCore.infraredMode);
+	settings.structureCore.infraredMode = ST::StructureCoreInfraredMode::BothCameras;
+
     /** @brief The target stream rate for IMU data. (gyro and accel) */
-    settings.structureCore.imuUpdateRate = ST::StructureCoreIMUUpdateRate::Default;
+    //pnh.getParam("/sensorSettings/imuUpdateRate", settings.structureCore.imuUpdateRate);
+	settings.structureCore.imuUpdateRate = ST::StructureCoreIMUUpdateRate::Default;
+
     /** @brief Serial number of sensor to stream. If null, the first connected sensor will be used. */
     settings.structureCore.sensorSerial = nullptr;
+    //pnh.getParam("/sensorSettings/sensorSerial", settings.structureCore.sensorSerial);
+
+    /** @brief Set to true to apply gamma correction to incoming visible frames. */
+    pnh.getParam("/sensorSettings/visibleApplyGammaCorrection", settings.structureCore.visibleApplyGammaCorrection); 
+
+    /** @brief Enable auto-exposure for infrared frames. */
+    pnh.getParam("/sensorSettings/infraredAutoExposureEnabled", settings.structureCore.infraredAutoExposureEnabled);
+
     /** @brief Maximum amount of time (in milliseconds) to wait for a sensor to connect before throwing a timeout error. */
-    settings.structureCore.sensorInitializationTimeout = 6000;
+    pnh.getParam("/sensorSettings/sensorInitializationTimeout", settings.structureCore.sensorInitializationTimeout);
+
     /** @brief The target framerate for the infrared camera. If the value is not supported, the default is 30. */
-    settings.structureCore.infraredFramerate = 15.f;
+    pnh.getParam("/sensorSettings/infraredFramerate", settings.structureCore.infraredFramerate);
+
     /** @brief The target framerate for the depth sensor. If the value is not supported, the default is 30. */
-    settings.structureCore.depthFramerate    = 15.f;
+    pnh.getParam("/sensorSettings/depthFramerate", settings.structureCore.depthFramerate);
+
+
     /** @brief The target framerate for the visible camera. If the value is not supported, the default is 30. */
-    settings.structureCore.visibleFramerate  = 15.f;
+    pnh.getParam("/sensorSettings/visibleFramerate", settings.structureCore.visibleFramerate);
+
     /** @brief The initial visible exposure to start streaming with (milliseconds, but set in seconds). */
     //settings.structureCore.initialVisibleExposure = 0.033f;
+
     /** @brief The initial visible gain to start streaming with. Can be any number between 1 and 8. */
     //settings.structureCore.initialVisibleGain = 4.0f;
+
     /** @brief The initial infrared exposure to start streaming with. */
-    settings.structureCore.initialInfraredExposure = 0.0146f;
+    pnh.getParam("/sensorSettings/initialInfraredExposure", settings.structureCore.initialInfraredExposure);
+
     /** @brief The initial infrared gain to start streaming with. Can be 0, 1, 2, or 3. */
-    settings.structureCore.initialInfraredGain = 3;
+    pnh.getParam("/sensorSettings/initialInfraredGain", settings.structureCore.initialInfraredGain);
+
     /** @brief Setting this to true will eliminate saturation issues, but might result in sparser depth. */
-    settings.structureCore.disableInfraredIntensityBalance = true;
+    pnh.getParam("/sensorSettings/disableInfraredIntensityBalance", settings.structureCore.disableInfraredIntensityBalance);
+
     /** @brief Setting this to true will reduce latency, but might drop more frame */
-    settings.structureCore.latencyReducerEnabled = false;
+    pnh.getParam("/sensorSettings/latencyReducerEnabled", settings.structureCore.latencyReducerEnabled);
     /** @brief Laser projector power setting from 0.0 to 1.0 inclusive. Projector will only activate if required by streaming configuration. */
-    settings.structureCore.initialProjectorPower = 1.0f;
+    //pnh.getParam("/sensorSettings/settings.structureCore.initialProjectorPower);
 
     SessionDelegate delegate(n, pnh);
     ST::CaptureSession session;
