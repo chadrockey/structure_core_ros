@@ -2,8 +2,7 @@
 #include <mutex>
 #include <stdio.h>
 #include <iostream>
-#include <thread>
-
+`
 #include <ST/CaptureSession.h>
 #include "register.hpp"
 
@@ -356,7 +355,6 @@ class SessionDelegate : public ST::CaptureSessionDelegate {
 
         void waitUntilReady() {
             std::unique_lock<std::mutex> u(lock);
-			printf("I am waitign");
             cond.wait(u, [this]() {
                 return ready;
             });
@@ -364,7 +362,6 @@ class SessionDelegate : public ST::CaptureSessionDelegate {
 
         void waitUntilDone() {
             std::unique_lock<std::mutex> u(lock);
-			printf("I am waitign until DONE");
             cond.wait(u, [this]() {
                 return done;
             });
@@ -490,12 +487,6 @@ int main(int argc, char **argv) {
     delegate.waitUntilReady();
     session.startStreaming();
 
-    /*while (true) {
-        std::this_thread::sleep_for(std::chrono::seconds(1));
-		printf("I am here");
-    }*/
-
-	printf("I am outta here");
     ros::spin();
 
     session.stopStreaming();
