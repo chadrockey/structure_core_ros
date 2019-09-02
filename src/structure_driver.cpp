@@ -2,7 +2,7 @@
 #include <mutex>
 #include <stdio.h>
 #include <iostream>
-`
+
 #include <ST/CaptureSession.h>
 #include "register.hpp"
 
@@ -301,7 +301,6 @@ class SessionDelegate : public ST::CaptureSessionDelegate {
                 case ST::CaptureSessionEventId::Ready: {
                     std::unique_lock<std::mutex> u(lock);
                     ready = true;
-					printf("HELLO It's me");
                     cond.notify_all();
                 } break;
                 case ST::CaptureSessionEventId::Disconnected:
@@ -317,7 +316,7 @@ class SessionDelegate : public ST::CaptureSessionDelegate {
         }
 
         void captureSessionDidOutputSample(ST::CaptureSession *, const ST::CaptureSessionSample& sample) {
-            printf("Received capture session sample of type %d (%s)\n", (int)sample.type, ST::CaptureSessionSample::toString(sample.type));
+            //printf("Received capture session sample of type %d (%s)\n", (int)sample.type, ST::CaptureSessionSample::toString(sample.type));
             switch (sample.type) {
                 case ST::CaptureSessionSample::Type::DepthFrame:
                     //printf("Depth frame: size %dx%d\n", sample.depthFrame.width(), sample.depthFrame.height());
@@ -405,7 +404,7 @@ int main(int argc, char **argv) {
 
     /** @brief The target resolution for streamed depth frames. @see StructureCoreDepthResolution */
     //pnh.getParam("/sensorSettings/depthResolution", settings.structureCore.depthResolution); 
-	settings.structureCore.depthResolution = ST::StructureCoreDepthResolution::SXGA;
+    settings.structureCore.depthResolution = ST::StructureCoreDepthResolution::SXGA;
 
 
     /** @brief The preset depth range mode for streamed depth frames. Modifies the min/max range of the depth values. */
